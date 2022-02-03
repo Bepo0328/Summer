@@ -6,6 +6,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,13 +17,67 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XSp-AL-Fbi">
+                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="5Hu-ny-bpp"/>
+                                    <barButtonItem title="Item" id="c0N-mf-IUW"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="4ot-IW-kHo"/>
+                                    <barButtonItem title="Item" id="YHf-kn-lVK"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="MdK-19-oLS"/>
+                                    <barButtonItem title="Item" id="gKg-Pg-Xcv"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="cQB-mF-Lra"/>
+                                </items>
+                            </toolbar>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2NL-dd-x3C">
+                                <rect key="frame" x="0.0" y="683" width="414" height="100"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="gGz-kK-2wN"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="XEU-bE-x2z">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ZRu-0l-OEO">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="hOz-BW-ZX5">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B6c-1z-J9u">
+                                <rect key="frame" x="0.0" y="118" width="414" height="535"/>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="XSp-AL-Fbi" firstAttribute="top" secondItem="2NL-dd-x3C" secondAttribute="bottom" constant="30" id="BEZ-gX-RiM"/>
+                            <constraint firstItem="2NL-dd-x3C" firstAttribute="top" secondItem="B6c-1z-J9u" secondAttribute="bottom" constant="30" id="GtJ-7i-Lc0"/>
+                            <constraint firstItem="XSp-AL-Fbi" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="IpP-Ie-wOZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="B6c-1z-J9u" secondAttribute="trailing" id="U9H-kh-IaJ"/>
+                            <constraint firstItem="B6c-1z-J9u" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="XUd-n8-ER5"/>
+                            <constraint firstItem="B6c-1z-J9u" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="brO-OZ-Y7T"/>
+                            <constraint firstItem="XSp-AL-Fbi" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="cw7-yb-vi8"/>
+                            <constraint firstItem="2NL-dd-x3C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="gs7-V0-wsN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2NL-dd-x3C" secondAttribute="trailing" id="nAX-4N-BHv"/>
+                            <constraint firstItem="XSp-AL-Fbi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="vWl-Qj-imR"/>
+                        </constraints>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="30" y="64"/>
+            <point key="canvasLocation" x="28.985507246376812" y="63.616071428571423"/>
         </scene>
     </scenes>
     <resources>
