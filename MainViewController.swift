@@ -7,6 +7,33 @@
 
 import UIKit
 
+extension UIImage {
+    func resize(to targetSize: CGSize) -> UIImage? {
+        let size = self.size
+        
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        var newSize: CGSize
+        
+        if widthRatio > heightRatio {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio, height: size.height * widthRatio)
+        }
+        
+        let rect = CGRect(origin: .zero, size: newSize)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        self.draw(in: rect)
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+}
+
 protocol Filter {
     var name: String { get }
     func convert(_ image: UIImage) -> UIImage
@@ -45,21 +72,21 @@ struct FilterManager {
         SummerFilter(name: "Curve", identifier: "CILinearToSRGBToneCurve"),
         SummerFilter(name: "Linear", identifier: "CISRGBToneCurveToLinear")
     ]
+    
+    lazy var thumbnails: [UIImage] = {
+        self.list.map{$0.convert(UIImage(named: "thumbnail")!)}
+    }()
 }
 
 class FilterCell: UICollectionViewCell {
-    var filter: Filter! {
-        didSet {
-            nameLabel.text = filter.name
-            imageView.image = filter.convert(UIImage(named: "photo")!)
-        }
-    }
-    @IBOutlet weak private var nameLabel: UILabel!
-    @IBOutlet weak private var imageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
 }
 
 class MainViewController: UIViewController {
-    private let manager = FilterManager()
+    private var manager = FilterManager()
+    private var selectedIndex: Int?
+    private var selectedImage: UIImage = UIImage(named: "photo")!
     
     @IBOutlet weak private var imageView: UIImageView!
     @IBOutlet weak private var collectionView: UICollectionView!
@@ -103,6 +130,14 @@ extension MainViewController: UIImagePickerControllerDelegate & UINavigationCont
     }
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            let resizedImage = image.resize(to: CGSize(width: 800, height: 800))!
+            
+            self.selectedImage = resizedImage
+            self.imageView.image = resizedImage
+        }
+        
+        self.dismiss(animated: true, completion: nil)
         print("did finish")
     }
 }
@@ -114,15 +149,24 @@ extension MainViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FilterCell", for: indexPath) as! FilterCell
-        let filter = manager.list[indexPath.item]
         
-        cell.filter = filter
+        cell.imageView.image = manager.thumbnails[indexPath.item]
+        cell.nameLabel.text = manager.list[indexPath.item].name
+        cell.nameLabel.textColor = (selectedIndex == indexPath.item) ? .black : .lightGray
         
         return cell
     }
 }
 
 extension MainViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let index = indexPath.item
+        let filter = manager.list[index]
+        
+        self.selectedIndex = index
+        self.imageView.image = filter.convert(selectedImage)
+        
+        self.collectionView.reloadData()
+    }
 }
 
