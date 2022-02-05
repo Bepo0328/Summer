@@ -91,9 +91,12 @@ class MainViewController: UIViewController {
     @IBOutlet weak private var imageView: UIImageView!
     @IBOutlet weak private var collectionView: UICollectionView!
     @IBOutlet weak private var toolbar: UIToolbar!
+    @IBOutlet weak private var maskView: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.maskView.isHidden = true
         
         self.toolbar.setShadowImage(UIImage(), forToolbarPosition: .bottom)
         
@@ -116,11 +119,37 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func presentCamera() {
-        print("camera")
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
+            print("카메라를 사용할 수 없음.")
+            return
+        }
+        
+        let controller = UIImagePickerController()
+        
+        controller.sourceType = .camera
+        controller.allowsEditing = true
+        controller.delegate = self
+
+        self.present(controller, animated: true, completion: nil)
     }
     
     @IBAction func saveImage() {
-        print("save")
+        guard let index = selectedIndex else {
+            return
+        }
+        
+        let filter = manager.list[index]
+        let filteredImage = filter.convert(selectedImage)
+        
+        UIImageWriteToSavedPhotosAlbum(filteredImage, nil, nil, nil)
+        
+        let controller = UIAlertController(title: "이미지 저장완료", message: "이미지를 성공적으로 저장하였습니다.", preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default, handler: { action in
+            print("확인")
+        })
+        
+        controller.addAction(action)
+        present(controller, animated: true, completion: nil)
     }
 }
 
@@ -131,14 +160,19 @@ extension MainViewController: UIImagePickerControllerDelegate & UINavigationCont
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
-            let resizedImage = image.resize(to: CGSize(width: 800, height: 800))!
-            
-            self.selectedImage = resizedImage
-            self.imageView.image = resizedImage
+            self.maskView.isHidden = false
+            DispatchQueue.global().async {
+                let resizedImage = image.resize(to: CGSize(width: 800, height: 800))!
+                
+                DispatchQueue.main.async {
+                    self.selectedImage = resizedImage
+                    self.imageView.image = resizedImage
+                    self.maskView.isHidden = true
+                }
+            }
         }
         
         self.dismiss(animated: true, completion: nil)
-        print("did finish")
     }
 }
 

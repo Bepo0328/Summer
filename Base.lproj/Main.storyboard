@@ -101,14 +101,32 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" translatesAutoresizingMaskIntoConstraints="NO" id="B6c-1z-J9u">
                                 <rect key="frame" x="0.0" y="118" width="414" height="535"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TKK-6e-FEq">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="i7S-UM-cKr">
+                                        <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
+                                        <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="i7S-UM-cKr" firstAttribute="centerY" secondItem="TKK-6e-FEq" secondAttribute="centerY" id="Kog-SK-ldW"/>
+                                    <constraint firstItem="i7S-UM-cKr" firstAttribute="centerX" secondItem="TKK-6e-FEq" secondAttribute="centerX" id="pYM-xA-cuX"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="TKK-6e-FEq" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="4ph-Iq-C7f"/>
+                            <constraint firstItem="TKK-6e-FEq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="8WL-Nd-QlI"/>
                             <constraint firstItem="XSp-AL-Fbi" firstAttribute="top" secondItem="2NL-dd-x3C" secondAttribute="bottom" constant="30" id="BEZ-gX-RiM"/>
                             <constraint firstItem="2NL-dd-x3C" firstAttribute="top" secondItem="B6c-1z-J9u" secondAttribute="bottom" constant="30" id="GtJ-7i-Lc0"/>
                             <constraint firstItem="XSp-AL-Fbi" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="IpP-Ie-wOZ"/>
+                            <constraint firstAttribute="bottom" secondItem="TKK-6e-FEq" secondAttribute="bottom" id="PPF-MK-bfS"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="B6c-1z-J9u" secondAttribute="trailing" id="U9H-kh-IaJ"/>
+                            <constraint firstAttribute="trailing" secondItem="TKK-6e-FEq" secondAttribute="trailing" id="VGC-De-Ykr"/>
                             <constraint firstItem="B6c-1z-J9u" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="XUd-n8-ER5"/>
                             <constraint firstItem="B6c-1z-J9u" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="brO-OZ-Y7T"/>
                             <constraint firstItem="XSp-AL-Fbi" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="cw7-yb-vi8"/>
@@ -121,6 +139,7 @@
                     <connections>
                         <outlet property="collectionView" destination="2NL-dd-x3C" id="yWB-r8-zS6"/>
                         <outlet property="imageView" destination="B6c-1z-J9u" id="Efh-zh-7pK"/>
+                        <outlet property="maskView" destination="TKK-6e-FEq" id="gmy-rC-NJy"/>
                         <outlet property="toolbar" destination="XSp-AL-Fbi" id="HUj-PL-pp5"/>
                     </connections>
                 </viewController>
